@@ -1,19 +1,15 @@
 let express = require("express");
-let app = express();
 let mongoose = require("mongoose");
 let morgan = require("morgan");
 let bodyParser = require("body-parser");
+let app = express();
 let port = 5000;
-let event = require("./app/routes/api");
-let config = require("config"); //we load the db location from the JSON files
-//db options
-let options = {
-	server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
-	replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
-};
+
+//we load the db location from the JSON files
+let config = require("config");
 
 //db connection
-mongoose.connect(config.DBHost, options);
+mongoose.connect(config.DBHost, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 
@@ -29,22 +25,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/json" }));
 
-app.get("/", (req, res) =>
-	res.json({
-		message: "Welcome to our Event Logger..Register your happy momets!",
-	})
-);
-
-app
-    .route("/event")
-    .get(event.getEvents)
-    .post(event.postEvent);
-
-app
-	.route("/event/:id")
-	.get(event.getEvent)
-	.delete(event.deleteEvent)
-	.put(event.updateEvent);
+//require routes
+const routes = require("./routes/api.js");
+app.use("/api", routes);
 
 app.listen(port);
 console.log("Listening on port " + port);

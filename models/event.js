@@ -7,7 +7,7 @@ let EventSchema = new Schema(
 		eventName: { type: String, required: true },
 		description: { type: String, required: true },
 		location: { type: String, required: true },
-        benefactor: { type: String, required: true },
+        benefactorName: { type: String, required: true },
         status: {
             type: String,
             enum : ["active","past"],
