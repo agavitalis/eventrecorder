@@ -46,7 +46,7 @@ function getEvent(req, res) {
  * DELETE /event/:id to delete a event given its id.
  */
 function deleteEvent(req, res) {
-    Event.remove({_id : req.params.id}, (err, result) => {
+    Event.deleteOne({_id : req.params.id}, (err, result) => {
         res.json({ message: "Event successfully deleted!", result });
     });
 }
