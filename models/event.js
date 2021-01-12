@@ -10,8 +10,8 @@ let EventSchema = new Schema(
         benefactorName: { type: String, required: true },
         status: {
             type: String,
-            enum : ["active","past"],
-            default: "active"
+            enum : ["pending","inProgrress","done"],
+            default: "pending"
         }
 	},
 	{ timestamps: true }

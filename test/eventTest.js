@@ -35,7 +35,7 @@ describe('Events', () => {
             description: "An adventure to Atlanta",
             location: "Texas USA",
             benefactorName: "Ogbonna Vitalis",
-            status: "active"
+            status: "pending"
           }
             chai.request(server)
             .post('/api/event')
@@ -55,7 +55,7 @@ describe('Events', () => {
             description: "An adventure to Atlanta",
             location: "Texas USA",
             benefactorName: "Ogbonna Vitalis",
-            status: "active"
+            status: "pending"
           }
             chai.request(server)
             .post('/api/event')
@@ -75,7 +75,7 @@ describe('Events', () => {
   });
   describe('/GET/:id event', () => {
       it('it should GET a event by the given id', (done) => {
-          let event = new Event({ eventName: "The Hunt", description: "An amazing exprience", location: "Canada", benefactorName: "Ani Admans" ,status:  "past"});
+          let event = new Event({ eventName: "The Hunt", description: "An amazing exprience", location: "Canada", benefactorName: "Ani Admans" ,status:  "done"});
           event.save((err, event) => {
               chai.request(server)
             .get('/api/event/' + event.id)
@@ -97,16 +97,16 @@ describe('Events', () => {
   });
   describe('/PUT/:id event', () => {
       it('it should UPDATE a event given the id', (done) => {
-        let event = new Event({ eventName: "The Hunt", description: "An amazing exprience", location: "Canada", benefactorName: "Ani Admans" ,status:  "active"});
+        let event = new Event({ eventName: "The Hunt", description: "An amazing exprience", location: "Canada", benefactorName: "Ani Admans" ,status:  "pending"});
           event.save((err, event) => {
                 chai.request(server)
                 .put('/api/event/' + event.id)
-                .send({eventName: "The Chronicles of Narnia", description: "A plasant mission", location: "USA", benefactorName: "Smith William", status: "past"})
+                .send({eventName: "The Chronicles of Narnia", description: "A plasant mission", location: "USA", benefactorName: "Smith William", status: "done"})
                 .end((err, res) => {
                       res.should.have.status(200);
                       res.body.should.be.a('object');
                       res.body.should.have.property('message').eql('Event updated!');
-                      res.body.event.should.have.property('status').eql("past");
+                      res.body.event.should.have.property('status').eql("done");
                   done();
                 });
           });
@@ -117,7 +117,7 @@ describe('Events', () => {
   */
   describe('/DELETE/:id event', () => {
       it('it should DELETE a event given the id', (done) => {
-        let event = new Event({ eventName: "The Hunt", description: "An amazing exprience", location: "Canada", benefactorName: "Ani Admans" ,status:  "active"});
+        let event = new Event({ eventName: "The Hunt", description: "An amazing exprience", location: "Canada", benefactorName: "Ani Admans" ,status:  "pending"});
           event.save((err, event) => {
                 chai.request(server)
                 .delete('/api/event/' + event.id)
